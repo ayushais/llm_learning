@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>LLM Learning Course</title>
+<style>
+:root{--bg:#fbfbf9;--fg:#1d1d1f;--mut:#5f6368;--acc:#2a5bd7;--card:#f0f0ec;--bd:#d9d9d2;--code:#eceae4}
+@media(prefers-color-scheme:dark){:root{--bg:#16171a;--fg:#e8e8e6;--mut:#a0a3a8;--acc:#8ab4ff;--card:#202226;--bd:#33363b;--code:#26282d}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font:18px/1.65 Georgia,"Iowan Old Style",serif}
+main{max-width:46rem;margin:0 auto;padding:1.5rem 1rem 4rem}
+h1,h2,h3,nav,.tag{font-family:system-ui,-apple-system,"Segoe UI",sans-serif}
+h1{font-size:2rem;line-height:1.2;margin:.4rem 0}
+h2{font-size:1.4rem;margin-top:2.6rem;border-top:1px solid var(--bd);padding-top:1.2rem}
+h3{font-size:1.1rem;margin-top:1.6rem}
+a{color:var(--acc)}
+code,pre{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:.85em}
+code{background:var(--code);padding:.1em .3em;border-radius:4px}
+pre{background:var(--code);padding:.8rem 1rem;border-radius:8px;overflow-x:auto;line-height:1.45}
+pre code{background:none;padding:0}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:10px;padding:.8rem 1rem;margin:1.2rem 0}
+.card p{margin:.4rem 0}
+.tag{font-size:.75rem;text-transform:uppercase;letter-spacing:.06em;color:var(--mut)}
+nav{font-size:.9rem;display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap;color:var(--mut)}
+table{border-collapse:collapse;width:100%;font-size:.9rem;font-family:system-ui,sans-serif;display:block;overflow-x:auto}
+th,td{border-bottom:1px solid var(--bd);padding:.35rem .6rem;text-align:left}
+svg{max-width:100%;height:auto;display:block;margin:1rem auto}
+svg text{fill:var(--fg);font-family:system-ui,sans-serif}
+.box{fill:var(--card);stroke:var(--acc);stroke-width:1.5}
+ul.mods{list-style:none;padding:0}
+ul.mods li{padding:.6rem 0;border-bottom:1px solid var(--bd)}
+.soon{color:var(--mut)}
+</style>
+</head><body><main>
+<p class="tag">Course</p>
+<h1>How LLMs work: concepts, code and tricks</h1>
+<p>A self-paced course built on the original research. Read the lessons here; run the matching notebooks on a laptop (CPU is enough). It ends with a small modern GPT trained from the pieces.</p>
+<ul class="mods">
+<li><a href="01_big_picture.html"><b>1. Big picture</b></a> &mdash; pipeline, training stages, generation</li>
+<li class="soon">2. Tokenization and BPE</li>
+<li class="soon">3. Embeddings and a bigram baseline</li>
+<li class="soon">4. Self-attention step by step</li>
+<li class="soon">5. The transformer block: residuals, RMSNorm, SwiGLU</li>
+<li class="soon">6. Training: AdamW, schedules, scaling laws</li>
+<li class="soon">7. Positional encodings: sinusoidal to RoPE</li>
+<li class="soon">8. Efficient attention: KV cache, GQA, FlashAttention</li>
+<li class="soon">9. Sampling and decoding, speculative decoding</li>
+<li class="soon">10. Quantization</li>
+<li class="soon">11. LoRA fine-tuning</li>
+<li class="soon">12. Alignment: RLHF and DPO</li>
+<li class="soon">13. Reasoning and RL</li>
+<li class="soon">14. Capstone: train the GPT</li>
+</ul>
+<p><a href="https://github.com/ayushais/llm_learning">Source and notebooks on GitHub</a></p>
+</main></body></html>
