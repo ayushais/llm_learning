@@ -5,3 +5,4 @@ data/
 *.pt
 *.safetensors
 .DS_Store
+tools/module01/data.json
