@@ -6,3 +6,4 @@ data/
 *.safetensors
 .DS_Store
 tools/module01/data.json
+tools/module02/data.json
