@@ -51,7 +51,7 @@ Lessons and notebooks share the number and name, e.g. `docs/01_big_picture.html`
 |---|--------|-------------|
 | 1 | Big picture: pipeline, training stages, generation (done, [Colab](https://colab.research.google.com/github/ayushais/llm_learning/blob/main/notebooks/01_big_picture.ipynb)) | Vaswani 2017; Radford 2019 (GPT-2); Ouyang 2022 |
 | 2 | Tokenization and BPE (done, [Colab](https://colab.research.google.com/github/ayushais/llm_learning/blob/main/notebooks/02_tokenization_bpe.ipynb)) | Sennrich 2016; GPT-2 (Radford 2019); Kudo & Richardson 2018; Petrov 2023 |
-| 3 | Embeddings and a bigram baseline | Bengio 2003 |
+| 3 | Embeddings and a bigram baseline (done, [Colab](https://colab.research.google.com/github/ayushais/llm_learning/blob/main/notebooks/03_embeddings_bigram.ipynb)) | Bengio 2003; Mikolov 2013; Press & Wolf 2016 |
 | 4 | Self-attention step by step | Vaswani 2017 |
 | 5 | The transformer block: residuals, RMSNorm, SwiGLU | Zhang & Sennrich 2019; Shazeer 2020 |
 | 6 | Training: AdamW, schedules, mixed precision, scaling laws | Loshchilov & Hutter 2017; Kaplan 2020; Hoffmann 2022 |
