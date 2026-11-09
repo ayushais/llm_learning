@@ -91,11 +91,11 @@ pcs = GPT2_PAT.findall(ex)
 toks = [rk_i for p in pcs for rk_i in encode_piece(p.encode(), rk)]
 inv = {i: b for b, i in rk.items()}
 bytes_of = " ".join(f"{b:02x}" for b in pcs[2].encode())
-stages = [("1  text", f"“{ex}”"),
-          ("2  pre-tokenize (regex)", "[" + ", ".join(repr(p) for p in pcs) + "]"),
-          ("3  each piece → bytes", f"{pcs[2]!r} → {bytes_of}"),
-          ("4  apply merges", " | ".join(tokstr(inv[i]) if tokstr(inv[i]).startswith("⟨") else vis(tokstr(inv[i])) for i in toks)),
-          ("5  token ids", str(toks))]
+stages = [("text", f"“{ex}”"),
+          ("pre-tokenize (regex)", "[" + ", ".join(repr(p) for p in pcs) + "]"),
+          ("each piece → bytes", f"{pcs[2]!r} → {bytes_of}"),
+          ("apply merges", " | ".join(tokstr(inv[i]) if tokstr(inv[i]).startswith("⟨") else vis(tokstr(inv[i])) for i in toks)),
+          ("token ids", str(toks))]
 body = ARROW
 for k, (a, b) in enumerate(stages):
     y = 6 + k * 52
