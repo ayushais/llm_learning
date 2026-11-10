@@ -25,8 +25,9 @@ def analogy(a, b, c, k=5):
     return [tok.decode([int(i)]) for i in sims.topk(k).indices]
 G["analogy"] = [[a, b, c, analogy(a, b, c)] for a, b, c in
                 [(" king", " man", " woman"), (" Paris", " France", " Italy"), (" walking", " walk", " swim"), (" Rome", " Italy", " Japan")]]
-groups = {"countries": [" France", " Germany", " Italy", " Spain", " Japan", " China", " Russia", " Egypt"],
-          "capitals": [" Paris", " Berlin", " Rome", " Madrid", " Tokyo", " Beijing", " Moscow", " Cairo"]}
+groups = {"weekdays": [" Monday", " Tuesday", " Wednesday", " Thursday", " Friday", " Saturday", " Sunday"],
+          "countries": [" France", " Germany", " Italy", " Spain", " Japan", " China", " Russia", " Egypt"],
+          "animals": [" dog", " cat", " horse", " cow", " pig", " sheep", " lion", " tiger"]}
 allt = [(g, s) for g, ss in groups.items() for s in ss]
 M = Wg[[tid(s) for _, s in allt]]; Mc = M - M.mean(0)
 U, S, Vh = torch.linalg.svd(Mc, full_matrices=False)

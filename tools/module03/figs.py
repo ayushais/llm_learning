@@ -103,30 +103,30 @@ body += t(ox + pw / 2, oy + ph + 31, "context length n (previous characters)", "
 F["sweep"] = fig("sweep", svg(oy + ph + 38, body, "Held-out and training loss versus context length for count n-grams and a neural language model"),
     "Predicting the next character from the previous n, on TinyShakespeare. <b>Blue:</b> a count-based n-gram with add-α smoothing (α picked on a validation slice). <b>Orange:</b> a small neural LM in the style of Bengio et al. (16-dim embeddings, one 256-unit tanh layer, 6,000 Adam steps). The counting model improves until n=4, then memorises its training text (dashed line keeps falling) and gets worse on new text, because most long contexts were never seen. The neural model stops improving after n≈4 but does not collapse. Real runs, one seed.")
 
-# 6 GPT-2 geometry
+# 6 GPT-2 geometry: three word groups as dots
 Gp = D["gpt2"]["groups"]["points"]; ve = D["gpt2"]["groups"]["var_explained"]
 ox, oy, pw, ph = 12, 26, 456, 270
-xs = [p[2] for p in Gp]; ys = [p[3] for p in Gp]; x0, x1, y0, y1 = min(xs) - 0.55, max(xs) + 0.5, min(ys) - 0.25, max(ys) + 0.3
+xs = [p[2] for p in Gp]; ys = [p[3] for p in Gp]; x0, x1, y0, y1 = min(xs) - 0.7, max(xs) + 0.7, min(ys) - 0.9, max(ys) + 0.7
 X = lambda v: ox + (v - x0) / (x1 - x0) * pw; Y = lambda v: oy + ph - (v - y0) / (y1 - y0) * ph
-col = {"countries": "var(--s1)", "capitals": "var(--s2)"}
+col = {"weekdays": "var(--s1)", "countries": "var(--s2)", "animals": "var(--s3)"}
 body = f'<rect x="{ox}" y="{oy}" width="{pw}" height="{ph}" fill="none" class="axis"/>'
-by = {(p[0], p[1]): (p[2], p[3]) for p in Gp}
-pairs = [("France", "Paris"), ("Germany", "Berlin"), ("Italy", "Rome"), ("Spain", "Madrid"), ("Japan", "Tokyo"), ("China", "Beijing"), ("Russia", "Moscow"), ("Egypt", "Cairo")]
-for c, k in pairs:
-    a, b2 = by[("countries", c)], by[("capitals", k)]
-    body += f'<line x1="{X(a[0]):.1f}" y1="{Y(a[1]):.1f}" x2="{X(b2[0]):.1f}" y2="{Y(b2[1]):.1f}" stroke="var(--mut)" stroke-width="1" stroke-dasharray="3 3"/>'
-place = {"France": "below", "Madrid": "above"}   # default: countries label left, capitals right
+for g in col:
+    pts = [(X(p[2]), Y(p[3])) for p in Gp if p[0] == g]; cx = sum(a for a, _ in pts) / len(pts); cy = sum(b for _, b in pts) / len(pts)
+    rr = max(math.hypot(a - cx, b - cy) for a, b in pts) + 14
+    body += f'<circle cx="{cx:.1f}" cy="{cy:.1f}" r="{rr:.1f}" fill="{col[g]}" opacity="0.10" stroke="{col[g]}" stroke-width="1"/>'
 for g, name, x, y in Gp:
-    body += f'<circle cx="{X(x):.1f}" cy="{Y(y):.1f}" r="5" fill="{col[g]}" stroke="var(--bg)" stroke-width="1.5"><title>{name} ({g})</title></circle>'
-    pl = place.get(name, "left" if g == "countries" else "right")
-    if pl == "left": body += t(X(x) - 9, Y(y) + 4, name, "", "end", 11.5)
-    elif pl == "right": body += t(X(x) + 9, Y(y) + 4, name, "", "start", 11.5)
-    elif pl == "above": body += t(X(x), Y(y) - 10, name, "", "middle", 11.5)
-    else: body += t(X(x), Y(y) + 19, name, "", "middle", 11.5)
-body += t(X(-1.75), Y(1.85), "countries", "", "start", 12.5, 'font-weight="700" style="fill:var(--s1)"') + t(X(1.9), Y(-1.75), "capitals", "", "end", 12.5, 'font-weight="700" style="fill:var(--s2)"')
+    body += f'<circle cx="{X(x):.1f}" cy="{Y(y):.1f}" r="4.5" fill="{col[g]}" stroke="var(--bg)" stroke-width="1.2"><title>{name} ({g})</title></circle>'
+lab = {}
+for g in col:
+    names = [p[1] for p in Gp if p[0] == g]; h2 = (len(names) + 1) // 2
+    pts = [(X(p[2]), Y(p[3])) for p in Gp if p[0] == g]
+    lab[g] = (sum(a for a, _ in pts) / len(pts), sum(b for _, b in pts) / len(pts), ", ".join(names[:h2]), ", ".join(names[h2:]))
+cx, cy, l1, l2 = lab["weekdays"];  body += t(cx + 38, cy - 8, "days of the week", "", "start", 12.5, 'font-weight="700" style="fill:var(--s1)"') + t(cx + 38, cy + 8, l1, "mut", "start", 11) + t(cx + 38, cy + 22, l2, "mut", "start", 11)
+cx, cy, l1, l2 = lab["countries"]; body += t(cx - 38, cy - 34, "countries", "", "end", 12.5, 'font-weight="700" style="fill:var(--s2)"') + t(cx - 38, cy - 19, l1, "mut", "end", 11) + t(cx - 38, cy - 5, l2, "mut", "end", 11)
+cx, cy, l1, l2 = lab["animals"];   body += t(cx - 38, cy - 8, "animals", "", "end", 12.5, 'font-weight="700" style="fill:var(--s3)"') + t(cx - 38, cy + 8, l1, "mut", "end", 11) + t(cx - 38, cy + 22, l2, "mut", "end", 11)
 body += t(ox + pw / 2, oy + ph + 16, f"first principal axis ({ve[0]*100:.0f}% of variance)", "mut", "middle", 11) + t(ox, oy - 8, f"second principal axis ({ve[1]*100:.0f}%)", "mut", "start", 11)
-F["geo"] = fig("geo", svg(oy + ph + 24, body, "Two-dimensional projection of GPT-2 embeddings for eight countries and their capitals"),
-    f"GPT-2's token embeddings for eight countries and their capitals, projected to 2-D by PCA (fit on just these 16 points, so the axes show whatever varies most among them). Countries sit on the left and capitals on the right, and the dashed country-to-capital connectors are almost parallel: in this plane, &ldquo;capital of&rdquo; is roughly one shared offset. Real values from <code>wte</code> of GPT-2 small. The two axes keep only about {sum(ve)*100:.0f}% of the variance, so distances in the picture are a rough guide.")
+F["geo"] = fig("geo", svg(oy + ph + 24, body, "Two-dimensional projection of GPT-2 embeddings for days of the week, countries and animals"),
+    f"GPT-2's token embeddings for 23 words in three groups, each dot one word (hover for its name), projected to 2-D by PCA fitted on just these points. Words of the same kind land next to each other and the three groups separate, although the model was never told the groups. Real values from <code>wte</code> of GPT-2 small. The two axes keep only about {sum(ve)*100:.0f}% of the variance, so distances in the picture are a rough guide.")
 
 # ---- generated text regions: <!--gen:name-->...<!--/gen:name-->
 G = {}

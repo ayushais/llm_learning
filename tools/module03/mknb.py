@@ -156,17 +156,18 @@ M("Some work, some do not (for Paris - France + Italy the nearest row is `Paris`
 C("""gen = torch.Generator().manual_seed(0); pr = torch.randint(0, Wg.shape[0], (20000, 2), generator=gen)
 print("mean cosine between two random rows:", float((Wn[pr[:, 0]] * Wn[pr[:, 1]]).sum(1).mean()))
 print("norm of the mean row:", float(Wg.mean(0).norm()), " average row norm:", float(Wg.norm(dim=1).mean()))""")
-M("""Finally, a 2-D look at countries and their capitals (PCA fitted on just these 16 tokens). The country-to-capital arrows come out nearly parallel.""")
-C("""countries = [" France", " Germany", " Italy", " Spain", " Japan", " China", " Russia", " Egypt"]
-capitals = [" Paris", " Berlin", " Rome", " Madrid", " Tokyo", " Beijing", " Moscow", " Cairo"]
-Mx = Wg[[tid(s) for s in countries + capitals]]; Mc = Mx - Mx.mean(0)
+M("""Finally, a 2-D look at three kinds of words (PCA fitted on just these 23 tokens). Nobody told the model the groups, yet each kind forms its own cluster.""")
+C("""groups = {"weekdays": [" Monday", " Tuesday", " Wednesday", " Thursday", " Friday", " Saturday", " Sunday"],
+          "countries": [" France", " Germany", " Italy", " Spain", " Japan", " China", " Russia", " Egypt"],
+          "animals": [" dog", " cat", " horse", " cow", " pig", " sheep", " lion", " tiger"]}
+words = [(g, w) for g, ws in groups.items() for w in ws]
+Mx = Wg[[tid(w) for _, w in words]]; Mc = Mx - Mx.mean(0)
 _, S, Vh = torch.linalg.svd(Mc, full_matrices=False); xy = (Mc @ Vh[:2].T).numpy()
 plt.figure(figsize=(6.5, 4.5))
-for i, (c, k) in enumerate(zip(countries, capitals)):
-    plt.annotate("", xy=xy[8 + i], xytext=xy[i], arrowprops=dict(arrowstyle="->", color="gray"))
-    plt.text(*xy[i], c.strip(), color="C0", ha="right"); plt.text(*xy[8 + i], k.strip(), color="C1")
-plt.scatter(*xy[:8].T, c="C0"); plt.scatter(*xy[8:].T, c="C1")
-plt.title(f"GPT-2 wte, PCA of 16 tokens ({(S[:2]**2).sum() / (S**2).sum():.0%} of variance)"); plt.show()""")
+for j, g in enumerate(groups):
+    idx = [i for i, (gg, _) in enumerate(words) if gg == g]
+    plt.scatter(*xy[idx].T, c=f"C{j}", label=g)
+plt.legend(); plt.title(f"GPT-2 wte, PCA of {len(words)} tokens ({(S[:2]**2).sum() / (S**2).sum():.0%} of variance)"); plt.show()""")
 
 M("""## Exercises
 1. **Embedding gradient.** Make a batch whose tokens are all id 5 and check the gradient with `nn.Embedding` is `batch_size` times the gradient for a single occurrence. What does that imply for very frequent tokens?
